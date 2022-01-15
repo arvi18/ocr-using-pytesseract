@@ -55,7 +55,7 @@ ROOT_URLCONF = 'ocr_using_pytesseract.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["BASE_DIR/ocr_app/templates"],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
