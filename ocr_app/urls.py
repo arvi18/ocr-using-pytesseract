@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.HomeView, name="home"),
+    path('ocr/', views.OCRView, name="ocr"),
 ]
