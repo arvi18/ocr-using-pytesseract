@@ -36,7 +36,18 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="file-upload" id="file-upload" />
+
+    <input type="checkbox" name="easyOCR" id="easyOCR">
+    <label for="easyOCR">use EasyOCR</label>
+
+    <input type="checkbox" name="addBorder" id="addBorder">
+    <label for="addBorder">Add borders</label>
+
+    <input type="checkbox" name="removeBorder" id="removeBorder">
+    <label for="removeBorder">Remove borders</label>
+
     <button type="submit">Upload</button>
+
   </form>
 </div>
 
