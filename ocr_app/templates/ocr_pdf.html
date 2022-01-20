@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+<style>
+
+  input[type="file"]::file-selector-button {
+    border: 2px solid #6c5ce7;
+    padding: 0.2em 0.4em;
+    border-radius: 0.2em;
+    background-color: #a29bfe;
+    transition: 600ms;
+  }
+  input[type="file"]::file-selector-button:hover {
+    background-color: #81ecec;
+    border: 2px solid #00cec9;
+  }
+  </style>
+
+{% block content %}
+
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="file" name="file-upload" id="file-upload" />
+
+    <div class="checkboxes">
+      <span>
+        <input type="checkbox" name="easyOCR" id="easyOCR" />
+        <label for="easyOCR">use EasyOCR</label>
+      </span>
+
+      <span>
+        <input type="checkbox" name="addBorder" id="addBorder" />
+        <label for="addBorder">Add borders</label>
+      </span>
+
+      <span>
+        <input type="checkbox" name="removeBorder" id="removeBorder" />
+        <label for="removeBorder">Remove borders</label>
+      </span>
+
+      <span>
+        <input type="checkbox" name="deskew" id="deskew" />
+        <label for="deskew">deskew</label>
+      </span>
+    </div>
+
+    <button type="submit">Upload</button>
+  </form>
+
+  
+  <div class="textbox">
+    <button id="copyBtn" onclick="copyTextFu()">Copy text</button>
+    <textarea name="textBox" id="textBox" cols="100" rows="20">{{ text }}</textarea>
+  </div>
+</div>
+
+<script>
+  function copyTextFu() {
+  var copyText = document.getElementById("textBox");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+  navigator.clipboard.writeText(copyText.value);
+}
+</script>
+
+{% endblock %}

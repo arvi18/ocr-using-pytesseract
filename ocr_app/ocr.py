@@ -2,7 +2,6 @@ import PIL
 from PIL import ImageDraw
 
 def pdfToImg(path, pdfname, easyOCR, addBorder, removeBorder, deskew):
-    print("ocr.py says: ", easyOCR, addBorder, removeBorder, deskew)
     from pdf2image import convert_from_path
 
     pages = convert_from_path(path, 500, userpw='XXX')
@@ -18,12 +17,21 @@ def pdfToImg(path, pdfname, easyOCR, addBorder, removeBorder, deskew):
             extractedText = extractedText+usingEasyOCR(filepath)
         else:
             extractedText = extractedText+usingPytesseract(filepath, addBorder, removeBorder, deskew)
-        print(extractedText[:40])
 
         image_counter = image_counter + 1
 
     return extractedText
 
+def imgToText(path, name, easyOCR, addBorder, removeBorder, deskew):
+    filepath = "media/"+name
+
+    extractedText = ""
+    if easyOCR:
+        extractedText = usingEasyOCR(filepath)
+    else:
+        extractedText = usingPytesseract(filepath, addBorder, removeBorder, deskew)
+    print(extractedText[:40])
+    return extractedText
 
 def usingEasyOCR(filepath):
     print('using easyocr')
@@ -50,7 +58,7 @@ def draw_boxes(image, bounds, color='red', width=7):
 
 
 def usingPytesseract(filepath, addBorder, removeBorder, deskew):
-    print('using pytes')
+    print('using pytesseract')
     import cv2
     import pytesseract
     from PIL import Image
@@ -135,6 +143,7 @@ def usingPytesseract(filepath, addBorder, removeBorder, deskew):
         minAreaRect = cv2.minAreaRect(largestContour)
         # Determine the angle. Convert it to the value that was originally used to obtain skewed image
         angle = minAreaRect[-1]
+        print(angle)
         if angle < -45:
             angle = 90 + angle
         return -1.0 * angle
@@ -152,7 +161,6 @@ def usingPytesseract(filepath, addBorder, removeBorder, deskew):
         im_data = plt.imread(im_path)
 
         height, width  = im_data.shape[:2]
-        print('im_data.shape:', im_data.shape)
         
         # What size does the figure need to be in inches to fit the image?
         figsize = width / float(dpi), height / float(dpi)

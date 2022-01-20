@@ -12,7 +12,34 @@ def HomeView(req):
     return render(req, "home.html")
 
 def OCRView(req):
+    if(req.POST):
+        easyOCR=False
+        addBorder=False
+        removeBorder=False
+        deskew=False
+        for key in req.POST.keys():
+            if key=='easyOCR':
+                easyOCR=True
+            if key=='addBorder':
+                addBorder=True
+            if key=='removeBorder':
+                removeBorder=True
+            if key=='deskew':
+                deskew=True
 
+        file = req.FILES["file-upload"]
+
+        file_instance = Upload.objects.create(upload_file=file)
+        file_url = MEDIA_ROOT+"\\"+str(file_instance)
+
+        from .ocr import imgToText
+        text = imgToText(file_url, str(file_instance), easyOCR, addBorder, removeBorder, deskew)
+    else:
+        text = None
+        return render(req, "ocr_pdf.html")
+    return render(req, "ocr_pdf.html", {'text': text})
+
+def pdfOCRView(req):
     if(req.POST):
         easyOCR=False
         addBorder=False
@@ -44,9 +71,9 @@ def OCRView(req):
             text = pdfToImg(file_url, str(file_instance), easyOCR, addBorder, removeBorder, deskew)
         else:
             isPDF = False
-            return render(req, "ocr.html")
+            return render(req, "ocr_pdf.html")
     else:
         isPDF = False
         text = None
-        return render(req, "ocr.html")
-    return render(req, "ocr.html", {'text': text})
+        return render(req, "ocr_pdf.html")
+    return render(req, "ocr_pdf.html", {'text': text})
