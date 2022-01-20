@@ -1,9 +1,12 @@
+{% extends "base.html" %}
 {% load static %}
 
 <style>
-  * {
+  /* * {
     padding: 0;
     margin: 0;
+    background: #eee;
+    font-family: poppins;
   }
   .container {
     display: flex;
@@ -11,48 +14,101 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin: 2rem;
+    gap: 2rem;
   }
   input {
-    font-size: 2rem;
+    font-size: 1rem;
   }
+  .checkboxes {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+  }
+  span {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+  } */
   input[type="file"]::file-selector-button {
     border: 2px solid #6c5ce7;
     padding: 0.2em 0.4em;
     border-radius: 0.2em;
     background-color: #a29bfe;
-    transition: 1s;
+    transition: 600ms;
   }
-
   input[type="file"]::file-selector-button:hover {
     background-color: #81ecec;
     border: 2px solid #00cec9;
   }
+  /* #textBox {
+    padding: 1rem;
+  }
+  .textbox{
+    position: relative;
+  }
+  #copyBtn{
+    position: absolute;
+    right: 0;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px; 
+    opacity: .6;
+  }
+  #copyBtn:hover{
+    background: #7162e0;
+    color: white;
+    opacity: 1;
+  } */
 </style>
 
 {% block content %}
 
 <div class="container">
-  <h1>Is uploaded file a pdf: {{ isPDF }}!</h1>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+
     <input type="file" name="file-upload" id="file-upload" />
 
-    <input type="checkbox" name="easyOCR" id="easyOCR">
-    <label for="easyOCR">use EasyOCR</label>
+    <div class="checkboxes">
+      <span>
+        <input type="checkbox" name="easyOCR" id="easyOCR" />
+        <label for="easyOCR">use EasyOCR</label>
+      </span>
 
-    <input type="checkbox" name="addBorder" id="addBorder">
-    <label for="addBorder">Add borders</label>
+      <span>
+        <input type="checkbox" name="addBorder" id="addBorder" />
+        <label for="addBorder">Add borders</label>
+      </span>
 
-    <input type="checkbox" name="removeBorder" id="removeBorder">
-    <label for="removeBorder">Remove borders</label>
+      <span>
+        <input type="checkbox" name="removeBorder" id="removeBorder" />
+        <label for="removeBorder">Remove borders</label>
+      </span>
+
+      <span>
+        <input type="checkbox" name="deskew" id="deskew" />
+        <label for="deskew">deskew</label>
+      </span>
+    </div>
 
     <button type="submit">Upload</button>
-
   </form>
+
+  
+  <div class="textbox">
+    <button id="copyBtn" onclick="copyTextFu()">Copy text</button>
+    <textarea name="textBox" id="textBox" cols="100" rows="20">{{ text }}</textarea>
+  </div>
 </div>
 
-<h2>{{ text }}</h2>
-
-
+<script>
+  function copyTextFu() {
+  var copyText = document.getElementById("textBox");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+  navigator.clipboard.writeText(copyText.value);
+}
+</script>
 
 {% endblock %}
