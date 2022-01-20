@@ -1,7 +1,8 @@
 import PIL
 from PIL import ImageDraw
 
-def pdfToImg(path, pdfname):
+def pdfToImg(path, pdfname, easyOCR, addBorder, removeBorder, deskew):
+    print("ocr.py says: ", easyOCR, addBorder, removeBorder, deskew)
     from pdf2image import convert_from_path
 
     pages = convert_from_path(path, 500, userpw='XXX')
@@ -13,9 +14,11 @@ def pdfToImg(path, pdfname):
         filepath = "media/"+pdfname+"_" + str(image_counter) + ".jpg"
         page.save(filepath, 'JPEG')
 
-        extractedText = extractedText+usingPytesseract(filepath)
-        # extractedText = extractedText+usingEasyOCR(filepath)
-        print(extractedText)
+        if easyOCR:
+            extractedText = extractedText+usingEasyOCR(filepath)
+        else:
+            extractedText = extractedText+usingPytesseract(filepath, addBorder, removeBorder, deskew)
+        print(extractedText[:40])
 
         image_counter = image_counter + 1
 
@@ -23,6 +26,7 @@ def pdfToImg(path, pdfname):
 
 
 def usingEasyOCR(filepath):
+    print('using easyocr')
     img = PIL.Image.open(filepath)
     import easyocr
     reader = easyocr.Reader(['en'])
@@ -45,19 +49,17 @@ def draw_boxes(image, bounds, color='red', width=7):
     return image
 
 
-def usingPytesseract(filepath): 
+def usingPytesseract(filepath, addBorder, removeBorder, deskew):
+    print('using pytes')
     import cv2
     import pytesseract
     from PIL import Image
     from matplotlib import pyplot as plt
 
-    def makeBorder():
+    def makeBorder(image):
         color = [0, 0, 0]
         top, bottom, left, right = [50]*4
-        image_with_border = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
-        # ocr=pytesseract.image_to_string(image_with_border)
-        # print('ocr:', ocr)
-        cv2.imwrite("temp/ocr.jpg", image_with_border)
+        image_with_border = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
         return image_with_border
 
     def remove_borders(image):
@@ -76,6 +78,7 @@ def usingPytesseract(filepath):
         return cv2.threshold(img, 210, 230, cv2.THRESH_BINARY)
 
     def noise_removal(image):
+        # thresh, image = cv2.threshold(image, 210, 230, cv2.THRESH_BINARY)
         import numpy as np
         kernel = np.ones((1, 1), np.uint8)
         image = cv2.dilate(image, kernel, iterations=1)
@@ -84,7 +87,7 @@ def usingPytesseract(filepath):
         image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
         image = cv2.medianBlur(image, 3)
         return (image)
-     
+    
     def erode_(image):
         import numpy as np
         image = cv2.bitwise_not(image)
@@ -101,7 +104,7 @@ def usingPytesseract(filepath):
         image = cv2.bitwise_not(image)
         return (image)
     
-    def deskew(cvImage):
+    def deSkew(cvImage):
         angle = getSkewAngle(cvImage)
         return rotateImage(cvImage, -1.0 * angle)
 
@@ -167,9 +170,16 @@ def usingPytesseract(filepath):
         plt.show()
 
     img = cv2.imread(filepath)
+    if addBorder:
+        img=makeBorder(img)
+    if deskew:
+        img=deSkew(img)
     gray_img = grayscale(img)
     binarized_img = binarize(gray_img)
-    no_noise_img = noise_removal(binarized_img)
+    no_noise_img = noise_removal(gray_img)
+    if removeBorder:
+        no_noise_img=remove_borders(no_noise_img)
+
     cv2.imwrite(filepath, no_noise_img)
     text=pytesseract.image_to_string(filepath)
     return text

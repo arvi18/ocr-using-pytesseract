@@ -9,11 +9,24 @@ from .models import Upload
 
 
 def HomeView(req):
-    return render(req, "base.html")
-
+    return render(req, "home.html")
 
 def OCRView(req):
+
     if(req.POST):
+        easyOCR=False
+        addBorder=False
+        removeBorder=False
+        deskew=False
+        for key in req.POST.keys():
+            if key=='easyOCR':
+                easyOCR=True
+            if key=='addBorder':
+                addBorder=True
+            if key=='removeBorder':
+                removeBorder=True
+            if key=='deskew':
+                deskew=True
         from django.core.files.storage import default_storage
         #  Reading file from storage
         # file = default_storage.open(file_name)
@@ -28,10 +41,12 @@ def OCRView(req):
             file_url = MEDIA_ROOT+"\\"+str(file_instance)
 
             from .ocr import pdfToImg
-            text = pdfToImg(file_url, str(file_instance))
+            text = pdfToImg(file_url, str(file_instance), easyOCR, addBorder, removeBorder, deskew)
         else:
             isPDF = False
+            return render(req, "ocr.html")
     else:
         isPDF = False
         text = None
-    return render(req, "ocr.html", {'isPDF': isPDF, 'text': text})
+        return render(req, "ocr.html")
+    return render(req, "ocr.html", {'text': text})
