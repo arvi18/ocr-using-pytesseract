@@ -1,8 +1,36 @@
-{% extends "base.html" %}
-{% load static %}
-
+{% extends "base.html" %} {% load static %} {% block content %}
 <style>
-
+  * {
+    padding: 0;
+    margin: 0;
+  }
+  .container {
+    display: flex;
+    height: 80%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2rem;
+    gap: 0.8rem;
+    width: 60%;
+    margin: auto;
+  }
+  input {
+    font-size: 1rem;
+  }
+  .checkboxes {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+  }
+  span {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+  }
+  input {
+    width: fit-content;
+  }
   input[type="file"]::file-selector-button {
     border: 2px solid #6c5ce7;
     padding: 0.2em 0.4em;
@@ -11,20 +39,92 @@
     transition: 600ms;
   }
   input[type="file"]::file-selector-button:hover {
-    background-color: #81ecec;
-    border: 2px solid #00cec9;
+    background-color: #87DAF3;
+    border: 2px solid #49c7ee;
   }
-  </style>
-
-{% block content %}
+  #textBox {
+    padding: 1rem;
+    margin-bottom: 5rem;
+  }
+  .textDiv {
+    position: relative;
+  }
+  #copyBtn {
+    position: absolute;
+    right: 0;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    opacity: 0.8;
+  }
+  #copyBtn:hover {
+    background: #7162e0;
+    color: white;
+  }
+  .heading {
+    margin-top: 1rem;
+    font-weight: bolder;
+    padding: 0 .9rem;
+    font-size: 3rem;
+    text-align: center;
+    color: #28a1c5;
+    background: #c5f0ff;
+    border-radius: 4px;
+  }
+  .info {
+    border-left: 10px solid rgb(250, 250, 70);
+    background: rgb(248, 248, 209);
+    font-size: 1.3rem;
+    width: 70%;
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+  #submit-btn {
+    width: fit-content;
+  }
+  span {
+    width: fit-content;
+  }
+  .checkboxes {
+    width: max-content;
+  }
+  label {
+    padding: 3px;
+  }
+  #submit-btn {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+    border: 2px solid #2bbfec;
+    background: #87daf3be;
+  }
+  #submit-btn:hover {
+    background: #20bbeb;
+    transition: 0.6s;
+  }
+</style>
 
 <div class="container">
+  <div class="heading">PDF to Text Converter</div>
+
+  <div class="pdfimage">
+    <img
+      src="https://img.icons8.com/cute-clipart/64/000000/pdf.png"
+      height="200px"
+    />
+  </div>
+
+  <div class="info">
+    To use PDF to Text Converter first simply choose a PDF File and select your
+    desired options and click on Upload
+  </div>
+
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <input type="file" name="file-upload" id="file-upload" />
 
-    <div class="checkboxes">
+    <div class="checkboxes" style="font-size: 1rem">
       <span>
         <input type="checkbox" name="easyOCR" id="easyOCR" />
         <label for="easyOCR">use EasyOCR</label>
@@ -39,30 +139,23 @@
         <input type="checkbox" name="removeBorder" id="removeBorder" />
         <label for="removeBorder">Remove borders</label>
       </span>
-
-      <span>
-        <input type="checkbox" name="deskew" id="deskew" />
-        <label for="deskew">deskew</label>
-      </span>
     </div>
-
-    <button type="submit">Upload</button>
+    <button id="submit-btn" type="submit">Upload</button>
   </form>
 
-  
-  <div class="textbox">
+  <div class="textDiv">
     <button id="copyBtn" onclick="copyTextFu()">Copy text</button>
-    <textarea name="textBox" id="textBox" cols="100" rows="20">{{ text }}</textarea>
+    <textarea name="textBox" id="textBox" cols="100" rows="15">{{ text }}</textarea>
   </div>
-</div>
 
-<script>
-  function copyTextFu() {
-  var copyText = document.getElementById("textBox");
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-  navigator.clipboard.writeText(copyText.value);
-}
-</script>
+  </div>
+  <script>
+    function copyTextFu() {
+      var copyText = document.getElementById("textBox");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+      navigator.clipboard.writeText(copyText.value);
+    }
+  </script>
 
-{% endblock %}
+  {% endblock %}
