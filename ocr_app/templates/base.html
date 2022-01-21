@@ -16,13 +16,21 @@
   {% endif %}
   
 </head>
+
+<style>
+  .ocr a:hover{
+    background: #584cdb;
+  }
+</style>
+
 <body>
-    <nav class="navbar navbar-info bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">
-            <img src="{% static 'logo.png' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
-            OCR
-          </a>
+    <nav class="navbar navbar-info shadow" style="background: #7b6ff8;">
+        <div class="container-fluid ">
+            <a href="/" style="padding-left: 1.5rem;"><img src="{% static 'logo.png' %}" alt="ocr image" height="50" class="d-inline-block align-text-top"></a>
+          <div class="ocr">
+            <a href="{% url 'ocr' %}" style="color: white;">👉Extract Text from an Image</a>
+            <a class="m-4" href="{% url 'ocrpdf' %}" style="color: white;">👉Extract Text from an pdf file</a>
+          </div>
         </div>
       </nav>
 

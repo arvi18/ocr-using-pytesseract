@@ -1,15 +1,153 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
+<style>
+  body {
+    font-family: Arial, "Trebuchet MS", sans-serif;
+  }
+  .full-page {
+    background-image: linear-gradient(0deg, #b992f0 10%, 50%, #4462c9 90%);
+    height: 500px;
+    position: relative;
+  }
+  .form-box {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0 auto 0;
+    padding-top: 10px;
+    padding: 2rem;
+    width: 530px;
+    position: absolute;
+    right: 35%;
+    top: 20%;
+    gap: 1.5rem;
+  }
 
-{% block content %}
+  .part1 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.1rem;
+    padding: 0 50px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  }
+  .part2 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 0 50px;
+    font-family: "Circular-Medium", "Arial", "Trebuchet MS", sans-serif;
+  }
+  .part3 {
+    font-family: "Circular-Book", "Arial", "Trebuchet MS", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0px 25px;
+  }
+  .button {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+  }
+  a {
+    text-decoration: none;
+  }
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<a href="/ocr"><h1 style="padding-left: 5rem;" >TO the OCR</h1></a>
+  .button1 {
+    border: none;
+    border-radius: 6px;
+    background-color: #b992f0d8;
+    padding: 16px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    font-size: 20px;
+    color: black;
+  }
+  .button1:hover {
+    background: #964bffd8;
+    transition: 0.6s;
+  }
+  .button2 {
+    border: none;
+    border-radius: 6px;
+    background-color: #b992f0d8;
+    padding: 16px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 0 0 70px;
+    width: 110px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    font-size: 20px;
+  }
+  .button2:hover {
+    background: #964bffd8;
+    transition: 0.6s;
+  }
+  p {
+    opacity: 0.7;
+  }
+  h1 {
+    font-weight: bold;
+  }
+</style>
+
+<div class="full-page">
+  <div class="form-box shadow-lg">
+    <div class="part1">
+      <img
+        alt="tool icon"
+        src="//images.ctfassets.net/itui8iwqqpt7/7DtGZoUh8I86aaUiAGQ0iW/3666f67903f7afea6df448b7bdc20378/extract-icon.svg"
+      />
+      <h1>Text Extractor Tool</h1>
+      <h3 style="color: rgb(37, 38, 88)">Extract text from an image.</h3>
+    </div>
+    <div class="part3">
+      <h4><span>
+        <img
+          src="{% static 'ocr_pdf.png' %}"
+          alt="ocr_pdf image"
+          width="40px"
+        /> </span
+      >Use OCR online</h4>
+      <p>
+        To extract text and characters from scanned PDF documents (including
+        multiple files), photos and digital camera captured images.
+      </p>
+      <h4>
+        <span>
+          <img
+            src="{% static 'ocr.png' %}"
+            alt="ocr image"
+            width="40px"
+          /> </span>
+        Image to Text
+      </h4>
+      <p>
+        Any JPG or PNG images can be converted into text output formats with the
+        same layout as original file.
+      </p>
+    </div>
+    <div class="button">
+      <button class="button1">
+        <a href="/ocr" style="color: black">IMAGE</a>
+      </button>
+      <button class="button2">
+        <a href="/ocr-pdf" style="color: black">PDF</a>
+      </button>
+    </div>
+  </div>
+</div>
 
 {% endblock content %}
