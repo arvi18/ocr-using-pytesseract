@@ -4,6 +4,7 @@
     padding: 0;
     margin: 0;
   }
+
   .container {
     display: flex;
     height: 80%;
@@ -15,22 +16,27 @@
     width: 60%;
     margin: auto;
   }
+
   input {
     font-size: 1rem;
   }
+
   .checkboxes {
     display: flex;
     flex-direction: column;
     font-size: 1rem;
   }
+
   span {
     padding: 5px;
     display: flex;
     align-items: center;
   }
+
   input {
     width: fit-content;
   }
+
   input[type="file"]::file-selector-button {
     border: 2px solid #6c5ce7;
     padding: 0.2em 0.4em;
@@ -38,17 +44,21 @@
     background-color: #a29bfe;
     transition: 600ms;
   }
+
   input[type="file"]::file-selector-button:hover {
     background-color: #87DAF3;
     border: 2px solid #49c7ee;
   }
+
   #textBox {
     padding: 1rem;
     margin-bottom: 5rem;
   }
+
   .textDiv {
     position: relative;
   }
+
   #copyBtn {
     position: absolute;
     right: 0;
@@ -57,10 +67,12 @@
     border-radius: 5px;
     opacity: 0.8;
   }
+
   #copyBtn:hover {
     background: #7162e0;
     color: white;
   }
+
   .heading {
     margin-top: 1rem;
     font-weight: bolder;
@@ -71,6 +83,7 @@
     background: #c5f0ff;
     border-radius: 4px;
   }
+
   .info {
     border-left: 10px solid rgb(250, 250, 70);
     background: rgb(248, 248, 209);
@@ -79,18 +92,23 @@
     text-align: center;
     padding-bottom: 0.5rem;
   }
+
   #submit-btn {
     width: fit-content;
   }
+
   span {
     width: fit-content;
   }
+
   .checkboxes {
     width: max-content;
   }
+
   label {
     padding: 3px;
   }
+
   #submit-btn {
     padding: 0.5rem;
     margin: 0.5rem;
@@ -98,6 +116,7 @@
     border: 2px solid #2bbfec;
     background: #87daf3be;
   }
+
   #submit-btn:hover {
     background: #20bbeb;
     transition: 0.6s;
@@ -105,17 +124,14 @@
 </style>
 
 <div class="container">
-  <div class="heading">PDF to Text Converter</div>
+  <div class="heading">Image to Text Converter</div>
 
   <div class="pdfimage">
-    <img
-      src="https://img.icons8.com/cute-clipart/64/000000/pdf.png"
-      height="200px"
-    />
+    <img src="https://img.icons8.com/nolan/96/image.png" height="150px" />
   </div>
 
   <div class="info">
-    To use PDF to Text Converter first simply choose a PDF File and select your
+    To use Image to Text Converter first simply choose a Image File and select your
     desired options and click on Upload
   </div>
 
@@ -136,14 +152,13 @@
       </span>
     </div>
 
-    <button id="submit-btn"  type="submit">Upload</button>
+    <button id="submit-btn" type="submit">Upload</button>
   </form>
 
   <div class="textDiv">
     <button id="copyBtn" onclick="copyTextFu()">Copy text</button>
     <textarea name="textBox" id="textBox" cols="100" rows="20">
-{{ text }}</textarea
-    >
+{{ text }}</textarea>
   </div>
 </div>
 
