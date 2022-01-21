@@ -63,6 +63,7 @@ def usingPytesseract(filepath, addBorder, removeBorder, deskew):
     import pytesseract
     from PIL import Image
     from matplotlib import pyplot as plt
+    import numpy as np
 
     def makeBorder(image):
         color = [0, 0, 0]
@@ -111,10 +112,6 @@ def usingPytesseract(filepath, addBorder, removeBorder, deskew):
         image = cv2.dilate(image, kernel, iterations=1)
         image = cv2.bitwise_not(image)
         return (image)
-    
-    def deSkew(cvImage):
-        angle = getSkewAngle(cvImage)
-        return rotateImage(cvImage, -1.0 * angle)
 
     def getSkewAngle(cvImage) -> float:
     # Prep image, copy, convert to gray scale, blur, and threshold
@@ -155,6 +152,10 @@ def usingPytesseract(filepath, addBorder, removeBorder, deskew):
         M = cv2.getRotationMatrix2D(center, angle, 1.0)
         newImage = cv2.warpAffine(newImage, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
         return newImage
+    
+    def deSkew(cvImage):
+        angle = getSkewAngle(cvImage)
+        return rotateImage(cvImage, -1.0 * angle)
 
     def display(im_path):
         dpi = 80
