@@ -1,1 +1,4 @@
-venv_ocr_using_pytesseract/
+venv/
+media/
+tmp/
+__pycache__/
