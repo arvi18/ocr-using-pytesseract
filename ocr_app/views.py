@@ -29,7 +29,7 @@ def OCRView(req):
         file = req.FILES["file-upload"]
 
         file_instance = Upload.objects.create(upload_file=file)
-        file_url = MEDIA_ROOT+"\\"+str(file_instance)
+        file_url = MEDIA_ROOT+"/"+str(file_instance)
 
         from .ocr import imgToText
         text = imgToText(file_url, str(file_instance), easyOCR, addBorder, removeBorder, deskew)
@@ -64,7 +64,7 @@ def pdfOCRView(req):
             isPDF = True
 
             file_instance = Upload.objects.create(upload_file=file)
-            file_url = MEDIA_ROOT+"\\"+str(file_instance)
+            file_url = MEDIA_ROOT+"/"+str(file_instance)
 
             from .ocr import pdfToImg
             text = pdfToImg(file_url, str(file_instance), easyOCR, addBorder, removeBorder, deskew)
