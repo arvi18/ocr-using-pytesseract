@@ -1,1 +1,5 @@
 venv_ocr_using_pytesseract/
+venv/
+media/
+*/__pycache__/*
+db.sqlite3
