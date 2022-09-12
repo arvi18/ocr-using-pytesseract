@@ -1,0 +1,46 @@
+
+sudo nano /etc/systemd/system/gunicorn.service
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/ocr-using-pytesseract
+ExecStart=/ocr-using-pytesseract/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/ocr-using-pytesseract/ocr-using-pytesseract.sock ocr-using-pytesseract.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+//
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+
+sudo systemctl status gunicorn
+
+sudo journalctl -u gunicorn
+
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+
+//
+sudo nano /etc/nginx/sites-available/myproject
+
+server {
+    listen 80;
+    server_name server_domain_or_IP;
+}
+
+sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabledsudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled
+
+sudo nginx -t
+
+sudo systemctl restart nginx
+
+sudo ufw delete allow 8000
+sudo ufw allow 'Nginx Full'
+
